@@ -134,13 +134,13 @@ public class ReadData {
 
             if (key != 0.0) {
                 export += "PNM " + key + ",--,";
-
+/*
                 for (PNM p : pnms) {
                     if (p.getID() == key) {
                         export += p.getFullName() + ",";
                     }
                 }
-
+*/
                 for (String name : value) {
                     export += name + ",";
                 }
