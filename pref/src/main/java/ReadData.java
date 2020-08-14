@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.apache.poi.ss.usermodel.*;
 
+//Rush Crush Preference Matching Program
+//Written by Natalie Eichorn (Zeta Xi, PC 17)
+
 public class ReadData {
     private String inputFile;
     public String sister;
@@ -47,15 +50,13 @@ public class ReadData {
             //change to make minimum list length
             int row = 1200;
 
-
             //reads through excel sheet to pull data
             for (Row r : sheet) {
-                //gets sister info
 
+                //gets sister info
                 Cell cell1 = r.getCell(0);
                 Cell cell2 = r.getCell(1);
                 Cell cell3 = r.getCell(2);
-
 
                 //full name of sister
                 if(cell2 != null) {
@@ -68,7 +69,6 @@ public class ReadData {
                 int p = 3;
                 int counter = 0;
                 int rank = 1;
-
 
                 //recognizes the end of the doc
                 if (rowcount==lastrow) {
@@ -114,7 +114,6 @@ public class ReadData {
                     }
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -125,6 +124,7 @@ public class ReadData {
 //--------------------------------------------------------------------------------------------------------------
 
     public String printMap() {
+        boolean added = false;
         String export = "";
 
         for(Map.Entry<Double, ArrayList<String>> entry : match.entrySet()) {
@@ -132,26 +132,31 @@ public class ReadData {
             double key = entry.getKey();
             ArrayList<String> value = entry.getValue();
 
+            //find the PNM based off of their ID
             if (key != 0.0) {
                 export += "PNM " + key + ",--,";
-/*
+
                 for (PNM p : pnms) {
-                    if (p.getID() == key) {
+                    if (p.getID() == key && !added) {
                         export += p.getFullName() + ",";
+                        added = true; //gets rid of double names printing
                     }
                 }
-*/
+
                 for (String name : value) {
                     export += name + ",";
                 }
+
                 export += "\n";
+                added = false;
             }
         }
         return export;
     }
 
     public void exportMap() {
-        String fileName = "/Users/natalieeichorn/Desktop/extra/axid/prefMatching/RUSH_CRUSH_LIST.txt";
+        //ENTER OUTPUT FILE NAME WITH PATHWAY HERE!
+        String fileName = "/Users/natalieeichorn/Desktop/output.txt";
         try {
             PrintWriter outputStream = new PrintWriter(fileName);
             outputStream.println(printMap());
@@ -173,8 +178,8 @@ public class ReadData {
         System.out.println("----------------------------------------------------------------------------");
 
         ReadData test = new ReadData();
-        //ENTER FILE NAME WITH PATHWAY HERE!
-        test.setInputFile("/Users/natalieeichorn/Desktop/extra/axid/prefMatching/RC1.xls");
+        //ENTER INPUT FILE NAME WITH PATHWAY HERE!
+        test.setInputFile("/Users/natalieeichorn/Downloads/rushcrush2020.xls");
         test.read();
         test.exportMap();
     }
